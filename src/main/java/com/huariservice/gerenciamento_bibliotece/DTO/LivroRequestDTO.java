@@ -19,6 +19,17 @@ public class LivroRequestDTO {
     @Size(max = 100)
     private String editora;
 
+    public LivroRequestDTO() {
+    }
+
+    public LivroRequestDTO(String titulo, String autor, String isbn, Integer anodepublicacao, String editora) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.isbn = isbn;
+        this.anodepublicacao = anodepublicacao;
+        this.editora = editora;
+    }
+
     public String getTitulo() {
         return titulo;
     }

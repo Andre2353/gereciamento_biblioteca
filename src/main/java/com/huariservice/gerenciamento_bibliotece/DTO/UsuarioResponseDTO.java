@@ -5,11 +5,33 @@ import jakarta.persistence.Column;
 import java.time.LocalDateTime;
 
 public class UsuarioResponseDTO {
-    private Long id ;
+    private Long id;
     private String nome;
     private String email;
     private String telefone;
     private LocalDateTime dtcadastro;
+
+    public UsuarioResponseDTO() {
+    }
+
+    public UsuarioResponseDTO(String nome, String email, String telefone, LocalDateTime dtcadastro) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.dtcadastro = dtcadastro;
+    }
+
+    public UsuarioResponseDTO(Long id, String nome, String email, String telefone, LocalDateTime dtcadastro) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.dtcadastro = dtcadastro;
+    }
+
+    public UsuarioResponseDTO(Long id, String nome, String email, LocalDateTime dtcadastro) {
+
+    }
 
     public Long getId() {
         return id;
@@ -51,3 +73,4 @@ public class UsuarioResponseDTO {
         this.dtcadastro = dtcadastro;
     }
 }
+

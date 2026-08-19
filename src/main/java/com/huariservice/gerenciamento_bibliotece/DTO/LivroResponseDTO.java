@@ -17,6 +17,20 @@ public class LivroResponseDTO {
     private Disponivel disponivel;
     private LocalDateTime dtcadastro;
 
+    public LivroResponseDTO() {
+    }
+
+    public LivroResponseDTO(long id, String titulo, String autor, String isbn, Integer anopublicacao, String editora, Disponivel disponivel, LocalDateTime dtcadastro) {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.isbn = isbn;
+        this.anopublicacao = anopublicacao;
+        this.editora = editora;
+        this.disponivel = disponivel;
+        this.dtcadastro = dtcadastro;
+    }
+
     public long getId() {
         return id;
     }

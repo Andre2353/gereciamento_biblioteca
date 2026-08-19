@@ -15,7 +15,16 @@ public class UsuarioRequestDTO {
     @Size(max = 20)
     private String telefone;
 
-    public String getNome() {z
+    public UsuarioRequestDTO() {
+    }
+
+    public UsuarioRequestDTO(String nome, String email, String telefone) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+    }
+
+    public String getNome() {
         return nome;
     }
 
