@@ -1,22 +1,26 @@
 package com.huariservice.gerenciamento_bibliotece.DTO;
 
-import com.huariservice.gerenciamento_bibliotece.entities.Livro;
 import com.huariservice.gerenciamento_bibliotece.entities.Status;
-import com.huariservice.gerenciamento_bibliotece.entities.Usuario;
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class EmprestimosResponseDTO {
+
     private Long id;
-    private Livro livro;
-    private Usuario usuario;
+    private Long livroId;
+    private String livroTitulo;
+    private Long usuarioId;
+    private String usuarioNome;
     private LocalDate dtemprestimos;
     private LocalDate dtdevolucao;
     private LocalDate dtdevolucaoreal;
     private Status status;
     private LocalDateTime dtcadastro;
+
+    public EmprestimosResponseDTO() {
+    }
+
+
 
     public Long getId() {
         return id;
@@ -26,20 +30,36 @@ public class EmprestimosResponseDTO {
         this.id = id;
     }
 
-    public Livro getLivro() {
-        return livro;
+    public Long getLivroId() {
+        return livroId;
     }
 
-    public void setLivro(Livro livro) {
-        this.livro = livro;
+    public void setLivroId(Long livroId) {
+        this.livroId = livroId;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getLivroTitulo() {
+        return livroTitulo;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setLivroTitulo(String livroTitulo) {
+        this.livroTitulo = livroTitulo;
+    }
+
+    public Long getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public String getUsuarioNome() {
+        return usuarioNome;
+    }
+
+    public void setUsuarioNome(String usuarioNome) {
+        this.usuarioNome = usuarioNome;
     }
 
     public LocalDate getDtemprestimos() {

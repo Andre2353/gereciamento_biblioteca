@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UsuarioService {
+
     private final UsuarioRepository usuarioRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository) {
@@ -25,61 +25,48 @@ public class UsuarioService {
         usuario.setTelefone(request.getTelefone());
         usuario.setDtcadastro(LocalDateTime.now());
 
-        // Guarda a instância retornada com o ID populado pelo banco
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
-
-        // Retorna o ResponseDTO passando o ID gerado
-        return new UsuarioResponseDTO(
-                usuarioSalvo.getId(),
-                usuarioSalvo.getNome(),
-                usuarioSalvo.getEmail(),
-                usuarioSalvo.getTelefone(),
-                usuarioSalvo.getDtcadastro()
-        );
+        return DTO(usuarioSalvo);
     }
 
     public List<UsuarioResponseDTO> listarUsuarios() {
-        return usuarioRepository.findAll().stream()
-                .map(usuario -> new UsuarioResponseDTO(
-                        usuario.getId(),
-                        usuario.getNome(),
-                        usuario.getEmail(),
-                        usuario.getDtcadastro()))
+        return usuarioRepository.findAll()
+                .stream()
+                .map(this::DTO)
                 .toList();
     }
 
-    public UsuarioResponseDTO buscarid(long id) {
+    public UsuarioResponseDTO buscarPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + id));
-
-        UsuarioResponseDTO usuarioResponse = new UsuarioResponseDTO();
-        usuarioResponse.setId(usuario.getId());
-        usuarioResponse.setDtcadastro(usuario.getDtcadastro());
-        usuarioResponse.setNome(usuario.getNome());
-        usuarioResponse.setEmail(usuario.getEmail());
-        return usuarioResponse;
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        return DTO(usuario);
     }
 
-    public String deletar(long id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        if (usuario.isEmpty()) {
-            return "Usuário não existe";
-        } else {
-            usuarioRepository.deleteById(id);
-            return "Usuário kickado";
+    public UsuarioResponseDTO atualizarid(Long id, UsuarioRequestDTO request) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        usuario.setNome(request.getNome());
+        usuario.setEmail(request.getEmail());
+        usuario.setTelefone(request.getTelefone());
+
+        return DTO(usuarioRepository.save(usuario));
+    }
+
+    public void deletar(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new RuntimeException("Usuário não encontrado");
         }
-    }
-    public String atualizarid(Long id, Usuario usuarioatualizado) {
-        Usuario usuarioexistente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("usuario não encontrado: " + id));
-
-        usuarioexistente.setNome(usuarioatualizado.getNome());
-        usuarioexistente.setEmail(usuarioatualizado.getEmail());
-        usuarioexistente.setTelefone(usuarioatualizado.getTelefone());
-
-        usuarioRepository.save(usuarioexistente);
-        return "usuario atualizado com sucesso";
+        usuarioRepository.deleteById(id);
     }
 
+    private UsuarioResponseDTO DTO(Usuario usuario) {
+        return new UsuarioResponseDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getTelefone(),
+                usuario.getDtcadastro()
+        );
+    }
 }
-

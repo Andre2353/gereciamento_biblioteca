@@ -79,26 +79,34 @@ public class LivroService {
         return livroResponse;
     }
     public String deletar(long id) {
-        Optional<Livro> usuario = livrorepository.findById(id);
-        if (usuario.isEmpty()) {
+        Optional<Livro> livro = livrorepository.findById(id);
+        if (livro.isEmpty()) {
             return "Usuário não existe";
         } else {
             livrorepository.deleteById(id);
             return "Usuário kickado";
         }
     }
-    public String atualizarid(Long id, Livro livroatualizado) {
-        Livro livroexistente = livrorepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("livro não encontrado: " + id));
+    public LivroResponseDTO atualizarid(Long id, LivroRequestDTO request) {
+        Livro livroexistente = livrorepository.findById(id).get();
 
-        livroexistente.setTitulo(livroatualizado.getTitulo());
-        livroexistente.setAutor(livroatualizado.getAutor());
-        livroexistente.setIsbn(livroatualizado.getIsbn());
-        livroexistente.setAnopublicacao(livroatualizado.getAnopublicacao());
-        livroexistente.setEditora(livroatualizado.getEditora());
-        livroexistente.setDisponivel(livroatualizado.getDisponivel());
+        livroexistente.setTitulo(request.getTitulo());
+        livroexistente.setAutor(request.getAutor());
+        livroexistente.setIsbn(request.getIsbn());
+        livroexistente.setAnopublicacao(request.getAnodepublicacao());
+        livroexistente.setEditora(request.getEditora());
 
-        livrorepository.save(livroexistente);
-        return "livro atualizado com sucesso";
+        Livro atualizado = livrorepository.save(livroexistente);
+
+        return new LivroResponseDTO(
+                atualizado.getId(),
+                atualizado.getTitulo(),
+                atualizado.getAutor(),
+                atualizado.getIsbn(),
+                atualizado.getAnopublicacao(),
+                atualizado.getEditora(),
+                atualizado.getDisponivel(),
+                atualizado.getDtcadastro()
+        );
     }
 }

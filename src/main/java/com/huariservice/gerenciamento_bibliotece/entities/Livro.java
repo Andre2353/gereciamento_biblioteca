@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity// essa anotação fala para o banco que essa tabela é uma entidade
 @Table(name = "livro") // Define o nome da tabela no banco de dados como "livro"
+// estou colocando em minusculos para faciitar a busca
 public class Livro {
-    @Id
+    @Id// vai falar que o id vai ser uma chave primaria
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false,length = 150)

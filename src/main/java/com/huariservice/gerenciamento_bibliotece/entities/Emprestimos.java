@@ -5,53 +5,51 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "emprestimos")
+@Entity // essa anotação fala para o banco que essa tabela é uma entidade
+@Table(name = "emprestimos")// vai falar que o nome da tabela vai ser exatamente essa
+// estou colocando em minusculos para faciitar a busca
 public class Emprestimos {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // vai falar que o id vai ser uma chave primaria
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // diz que o ID sera gerado automaticamente pelo banco de dados
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "livro_id", nullable = false)
+    @ManyToOne // vai falar que é uma relação de muitos para um, muitos para um unico livro
+    @JoinColumn(name = "livro_id", nullable = false)// Cria uma coluna de Chave Estrangeira
     private Livro livro;
     @ManyToOne
-    @JoinColumn(name = "usuario_id",nullable = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
-    @Column(name = "dt_emprestimo",nullable = false)//Data e hora em que o livro foi emprestado
-    private LocalDate dtemprestimos;
-    @Column(name = "dt_devolucao",nullable = false) //Data estimada da devolucao
+    @Column(name = "dt_emprestimo", nullable = false)//vai definir no banco o nome e vai dizer que éobrigatorio
+    private LocalDate dtemprestimos;//Data e hora em que o livro foi emprestado
+    @Column(name = "dt_devolucao", nullable = false) //Data estimada da devolucao
     private LocalDate dtdevolucao;
-    @Column(name = "dt_devolucao_real")//Data real da devolução do livro
-    private LocalDate dtdevolucaoreal;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)// vai dizer que o campo é um enum,O STRING faz com que o banco salve uma palavra
+    @Column(nullable = false)//é obrigatorio
     private Status status;
-    @Column(name = "data_cadastro",updatable = false)
+    @Column(name = "data_cadastro", updatable = false)// o updatable = false vai garantir que não seja alterado dps
     private LocalDateTime dtcadastro; //Data e hora em que o emprestimo foi cadastrado no sistema
 
-    public Emprestimos() {
+    public Emprestimos() {//o jpa precisa de um construtor vazio para conseguir montar os objetos
     }
-
-    public Emprestimos( Livro livro, Usuario usuario, LocalDate dtemprestimos, LocalDate dtdevolucao, LocalDate dtdevolucaoreal, Status status, LocalDateTime dtcadastro) {
+    // o construtor sem id é usado para criar um novo empréstimo no código
+    public Emprestimos( Livro livro, Usuario usuario, LocalDate dtemprestimos, LocalDate dtdevolucao, Status status, LocalDateTime dtcadastro) {
         this.livro = livro;
         this.usuario = usuario;
         this.dtemprestimos = dtemprestimos;
         this.dtdevolucao = dtdevolucao;
-        this.dtdevolucaoreal = dtdevolucaoreal;
         this.status = status;
         this.dtcadastro = dtcadastro;
     }
-
-    public Emprestimos(Long id, Livro livro, Usuario usuario, LocalDate dtemprestimos, LocalDate dtdevolucao, LocalDate dtdevolucaoreal, Status status, LocalDateTime dtcadastro) {
+    // o com id Usado caso voce precise criar um objeto onde já se sabe o ID
+    public Emprestimos(Long id, Livro livro, Usuario usuario, LocalDate dtemprestimos, LocalDate dtdevolucao, Status status, LocalDateTime dtcadastro) {
         this.id = id;
         this.livro = livro;
         this.usuario = usuario;
         this.dtemprestimos = dtemprestimos;
         this.dtdevolucao = dtdevolucao;
-        this.dtdevolucaoreal = dtdevolucaoreal;
         this.status = status;
         this.dtcadastro = dtcadastro;
     }
+    //Getters e Setters
 
     public Long getId() {
         return id;
@@ -91,14 +89,6 @@ public class Emprestimos {
 
     public void setDtdevolucao(LocalDate dtdevolucao) {
         this.dtdevolucao = dtdevolucao;
-    }
-
-    public LocalDate getDtdevolucaoreal() {
-        return dtdevolucaoreal;
-    }
-
-    public void setDtdevolucaoreal(LocalDate dtdevolucaoreal) {
-        this.dtdevolucaoreal = dtdevolucaoreal;
     }
 
     public Status getStatus() {
