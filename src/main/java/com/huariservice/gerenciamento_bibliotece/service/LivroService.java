@@ -4,10 +4,8 @@ import com.huariservice.gerenciamento_bibliotece.DTO.LivroRequestDTO;
 import com.huariservice.gerenciamento_bibliotece.DTO.LivroResponseDTO;
 import com.huariservice.gerenciamento_bibliotece.entities.Disponivel;
 import com.huariservice.gerenciamento_bibliotece.entities.Livro;
-import com.huariservice.gerenciamento_bibliotece.entities.Usuario;
 import com.huariservice.gerenciamento_bibliotece.repository.Livrorepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
